@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="AZSCommand" Class="FuelStationControlDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\AZSCommand.mdf;Integrated Security=True;Connect Timeout=30" SettingsObjectName="AZSCommand.Properties.Settings" SettingsPropertyName="AZSCommandConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Fuel" Member="Fuels">
+    <Type Name="Fuel">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Вид палива]" Member="Вид_палива" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[Тип палива]" Member="Тип_палива" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Ціна" Type="System.Decimal" DbType="SmallMoney NOT NULL" CanBeNull="false" />
+      <Association Name="Fuel_FuelStations" Member="FuelStations" ThisKey="Вид_палива" OtherKey="Вид_палива" Type="FuelStations" />
+      <Association Name="Fuel_Restock" Member="Restocks" ThisKey="Вид_палива" OtherKey="Вид_палива" Type="Restock" />
+    </Type>
+  </Table>
+  <Table Name="dbo.FuelStation" Member="FuelStations">
+    <Type Name="FuelStations">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="[Назва ПС]" Member="Назва_ПС" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="[Поточний об'єм палива]" Member="Поточний_об_єм_палива" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
+      <Column Name="[Макс. об'єм палива]" Member="Макс__об_єм_палива" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
+      <Column Name="[Вид палива]" Member="Вид_палива" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Fuel_FuelStations" Member="Fuel" ThisKey="Вид_палива" OtherKey="Вид_палива" Type="Fuel" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Models" Member="Models">
+    <Type Name="Models">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Модель" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[Об'єм баку]" Member="Об_єм_баку" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
+      <Column Name="[Тип палива]" Member="Тип_палива" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Models_Cars" Member="Cars" ThisKey="Модель" OtherKey="Модель" Type="Cars" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Restock" Member="Restocks">
+    <Type Name="Restock">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="[Вид палива]" Member="Вид_палива" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="[Поповнити у кількості]" Member="Поповнити_у_кількості" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Association Name="Fuel_Restock" Member="Fuel" ThisKey="Вид_палива" OtherKey="Вид_палива" Type="Fuel" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Cars" Member="Cars">
+    <Type Name="Cars">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Марка автомобіля]" Member="Марка_автомобіля" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Модель" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="[Номерний знак]" Member="Номерний_знак" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Models_Cars" Member="Models" ThisKey="Модель" OtherKey="Модель" Type="Models" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
